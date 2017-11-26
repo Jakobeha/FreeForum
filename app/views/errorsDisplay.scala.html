@@ -1,0 +1,7 @@
+@(errors: Seq[String])
+
+<div id="errors">
+    @for(error <- errors) {
+        <p id="error">@error</p>
+    }
+</div>

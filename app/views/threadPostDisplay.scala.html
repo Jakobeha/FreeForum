@@ -1,0 +1,17 @@
+@(post: LinkedPost, clazz: String)
+
+@defining(post.thread.title) { title =>
+@defining(post.post.htmlContent) { content =>
+@defining(post.post.author) { author =>
+
+<div class="@clazz item">
+    <div class="header">
+        <h2>@title</h2>
+    </div>
+    <div class="body">
+        <p>@content</p>
+        <p>Posted by @author</p>
+    </div>
+</div>
+
+} } }

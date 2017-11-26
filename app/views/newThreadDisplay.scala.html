@@ -1,0 +1,25 @@
+@import helper._
+@(profile: Option[Profile])(implicit messagesProvider: MessagesProvider)
+
+@defining(if (profile.isDefined) {
+    "New Project"
+} else {
+    "Sign Up, then New Project"
+}) { actionLabel =>
+
+<div class="thumb item">
+    @form(action = routes.HomeController.newThread) {
+        <div class="header">
+            @inputText(NewThreadBody.form("title"), 'placeholder -> "Project Name")
+        </div>
+        <div class="body">
+            @textarea(
+                NewThreadBody.form("content"),
+                'placeholder -> "Project description..."
+            )
+            <input type="submit" value="@actionLabel" />
+        </div>
+    }
+</div>
+
+}

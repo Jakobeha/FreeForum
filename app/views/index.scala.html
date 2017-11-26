@@ -1,0 +1,35 @@
+@(threadPosts: Seq[LinkedPost])(implicit mainContext: MainContext, messagesProvider: MessagesProvider)
+
+@main(Seq("Home")) {
+    <div id="main-screen" class="screen">
+        <div class="center-overlay">
+            <div id="title" class="initial raised">
+                <h1>FreeForum</h1>
+                <img class="background" src="@routes.Assets.versioned("images/title-background.svg")" />
+            </div>
+            <div class="final main item">
+                <div class="header">
+                    <h2>FreeForum</h2>
+                </div>
+                <div class="body">
+                    <h3>Supporting Devs, Researchers, and Other Innovators</h3>
+                    <p>
+                        ...
+                    </p>
+                    <p>
+                        Testing multiline support
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-overlay">
+            <img class="screen-down-arrow item-button" src="@routes.Assets.versioned("images/down-arrow.svg")" />
+        </div>
+    </div>
+    <div class="thumbs">
+        @newThreadDisplay(mainContext.profile)
+        @for(threadPost <- threadPosts) {
+            @threadPostDisplay(threadPost, clazz = "thumb")
+        }
+    </div>
+}

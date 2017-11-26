@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /                           controllers.HomeController.index
+GET     /login                      controllers.LoginController.login
+GET     /login/submit               controllers.LoginController.submitLogin
+GET     /logout                     controllers.LoginController.logout
+GET     /new/thread                 controllers.HomeController.newThread
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path = "/public", file: Asset)

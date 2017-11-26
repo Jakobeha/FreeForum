@@ -1,0 +1,20 @@
+@import helper._
+@()(implicit mainContext: MainContext, messagesProvider: MessagesProvider)
+
+@main(Seq("Login")) {
+    <div class="center-overlay">
+        <div class="main item">
+            <div class="header">
+                <h2>Login</h2>
+            </div>
+            <div class="body">
+                <div class="login">
+                    @form(action = routes.LoginController.submitLogin) {
+                        @inputText(Login.form("name"))
+                        <input type="submit" value="Login" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

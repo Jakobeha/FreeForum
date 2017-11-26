@@ -1,0 +1,10 @@
+@(profile: Option[Profile])
+
+<div id="profile">
+    @profile.map(_.name).getOrElse("Annonymous")
+    @if(profile.isDefined) {
+        <a href="@routes.LoginController.logout().url">Logout</a>
+    } else {
+        <a href="@routes.LoginController.login().url">Login</a>
+    }
+</div>
