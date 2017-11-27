@@ -17,11 +17,14 @@ form
   margin: 0
   width: 100%
   height: 100%
+  flex-grow: 1
+  flex-shrink: 1
 
 div
   display: flex
   flex-direction: column
   box-sizing: border-box
+  flex-shrink: 0
 
 dl, dt, dd
   padding: 0
@@ -30,8 +33,6 @@ dl, dt, dd
   flex-direction: row
 
 dl, dd
-  width: 100%
-  flex-grow: 1
   margin: 0
 
 dt
@@ -62,12 +63,28 @@ textarea
   width: 100%
   height: 100%
   flex-grow: 1
+  flex-shrink: 1
   resize: none
 
   padding: 2px
 
 input[type = text]:focus
     border: 2px solid #00a3c1
+
+@keyframes fade-in
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+
+@keyframes fade-out
+  from
+    opacity: 1
+
+  to
+    opacity: 0
 
 #errors
   display: none
@@ -100,74 +117,83 @@ input[type = text]:focus
 .center-overlay
   pointer-events: none
 
-  position: absolute
   width: 100%
   height: 100%
+  flex-grow: 1
+  flex-shrink: 1
 
-  display: flex
-  flex-flow: column
+  padding: 32px
   justify-content: center
   align-items: center
 
   > *
+    margin: auto
+    top: auto
+    bottom: auto
+    left: auto
+    right: auto
     pointer-events: auto
 
 .bottom-overlay
   pointer-events: none
 
-  position: absolute
   width: 100%
-  bottom: 0
+  margin-bottom: 0
 
-  display: flex
-  flex-flow: column
   justify-content: center
   align-items: center
 
   > *
+    margin: auto
+    top: auto
+    bottom: auto
+    left: auto
+    right: auto
     pointer-events: auto
 
-.main-screen
-  .initial
-    animation-name: fade-out
+.initial
+  animation-name: fade-out
 
+.final
+  animation-name: fade-in
+  opacity: 0
 
-  .initial, .final
-    position: absolute
+.initial, .final
+  animation-duration: 2s
+  animation-delay: 3s
+  animation-fill-mode: forwards
 
-    align-self: center
-    justify-self: center
+  align-self: center
+  justify-self: center
 
-  #title
-    min-width: 25%
-    width: 512px
-    height: 256px
-    flex-grow: 0
+#main-screen #title
+  position: absolute
 
-    justify-content: center
-    align-items: center
+  width: 50vw
+  height: 25vh
+  flex-grow: 0
 
-    > h1
-      font-size: 72px
-      font-weight: bold
+  justify-content: center
+  align-items: center
+
+  > h1
+    font-size: 72px
+    font-weight: bold
 
 .screen-down-arrow
-  position: absolute
-  bottom: 64px
-  width: 128px
-  height: 128px
+  margin-bottom: 6.25vmin
+  width: 12.5vmin
+  height: 12.5vmin
 
 .screen
   width: 100vw
   height: 100vh
   flex-grow: 0
 
-  display: flex
-
 .background
   position: absolute
-  width: inherit
-  height: inherit
+  width: 100%
+  height: auto
   z-index: -1
 
 .item
@@ -183,18 +209,7 @@ input[type = text]:focus
     .header
       height: 48px
 
-      input[type = text]
-        width: 100%
-        height: 100%
-        flex-grow: 1
-
-        color: white
-        font-size: 24px
-        font-weight: bold
-
-        text-align: center
-
-      > h2
+      > h2, input[type = text]
         font-size: 24px
 
     .body
@@ -212,12 +227,14 @@ input[type = text]:focus
     align-self: center
     margin: 32px auto
     width: 75%
-    min-height: 512px
+    height: 100%
+    flex-grow: 1
+    flex-shrink: 1
 
     .header
-      height: 96px
+      height: 72px
 
-      > h2
+      > h2, input[type = text]
         font-size: 36px
 
     .body
@@ -228,6 +245,19 @@ input[type = text]:focus
 
       textarea, > p
         font-size: 24px
+
+  #content_field
+    width: 100%
+    flex-grow: 1
+    flex-shrink: 1
+
+    dd
+      width: 100%
+      flex-grow: 1
+      flex-shrink: 1
+
+    dt
+      display: none
 
   .header
     width: 100%
@@ -244,11 +274,30 @@ input[type = text]:focus
 
     padding: 4px
 
+    dl, dd
+      width: 100%
+      flex-grow: 1
+      flex-shrink: 1
+
     dt
       display: none
 
+    input[type = text]
+      width: 100%
+      height: 100%
+      flex-grow: 1
+      flex-shrink: 1
+
+      color: white
+      font-size: 24px
+      font-weight: bold
+
+      text-align: center
+
   .body
     flex-grow: 1
+    flex-shrink: 1
+    overflow: scroll
 
     #content_field dt
       display: none
@@ -269,3 +318,7 @@ input[type = text]:focus
 
 .login
   font-size: 24px
+  width: 100%
+  height: 100%
+  flex-grow: 1
+  flex-shrink: 1

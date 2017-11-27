@@ -5,12 +5,8 @@ import java.util.Date
 import scala.concurrent.{ExecutionContext, Future}
 import javax.inject.{Inject, Singleton}
 
-import play.api.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
-import slick.jdbc.meta.MTable
-
-import scala.util.{Failure, Success}
 
 /** A @Post@ with a reference to the @Thread@ it belongs to. */
 case class LinkedPost(post: Post,
@@ -43,12 +39,13 @@ class LinkedPostDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
       MappedColumnType.base[Date, Long](_.getTime, new Date(_))
 
     val postDates = posts.groupBy(_.threadId).map {
-      case (_, linkedPostsInThread) => linkedPostsInThread.map(_.createdDate).min
+      case (threadId, linkedPostsInThread) => (threadId, linkedPostsInThread.map(_.createdDate).min)
     }
 
     val threadPosts = for {
-      (linkedPost, _) <- linkedPosts join postDates on { (linkedPost, postDate) =>
-        linkedPost._1.createdDate === postDate
+      (linkedPost, _) <- linkedPosts join postDates on {
+        case (linkedPost, (threadId, postDate)) =>
+          linkedPost._1.threadId === threadId && linkedPost._1.createdDate === postDate
       }
     } yield linkedPost
 
