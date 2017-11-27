@@ -2,11 +2,11 @@ name := """free-forum"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, GhpagesPlugin)
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-git.remoteRepo := "git@github.com:Jakobeha/jakobeha.github.io.git"
+git.remoteRepo := "git@github.com:Jakobeha/FreeForum.git"
 
 scalaVersion := "2.12.2"
 
