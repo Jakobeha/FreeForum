@@ -6,7 +6,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, GhpagesPlugin)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-git.remoteRepo := "git@github.com:Jakobeha/FreeForum.git"
+git.remoteRepo := "git@github.com:Jakobeha/jakobeha.github.io.git"
 
 scalaVersion := "2.12.2"
 
