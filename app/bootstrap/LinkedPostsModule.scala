@@ -37,13 +37,13 @@ object LinkedPostsModule {
       Thread(
         id = Some(1L),
         title = "Test thread #1",
-        author = "Jakob Hain",
+        author = "Jakob",
         createdDate = new GregorianCalendar(2017, 11, 19).getGregorianChange
       ),
       Thread(
         id = Some(2L),
         title = "Test thread #2",
-        author = "Jakob Hain",
+        author = "Jakob",
         createdDate = new GregorianCalendar(2017, 11, 19).getGregorianChange
       )
     )
@@ -52,21 +52,21 @@ object LinkedPostsModule {
       Post(
         id = Some(1L),
         content = "This is a test thread post",
-        author = "Jakob Hain",
+        author = "Jakob",
         createdDate = new GregorianCalendar(2017, 10, 16).getGregorianChange,
         threadId = Some(1L)
       ),
       Post(
         id = Some(2L),
         content = "This is a test reply post",
-        author = "(also) Jakob Hain",
+        author = "(also) Jakob",
         createdDate = new GregorianCalendar(2017, 10, 19).getGregorianChange,
         threadId = Some(1L)
       ),
       Post(
         id = Some(3L),
         content = "This is another test thread post with <u>valid formatting</u> and <span>escaped formatting</span>",
-        author = "Jakob Hain",
+        author = "Jakob",
         createdDate = new GregorianCalendar(2017, 10, 16).getGregorianChange,
         threadId = Some(2L)
       )
