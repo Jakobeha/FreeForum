@@ -6,8 +6,6 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-git.remoteRepo := "git@github.com:Jakobeha/FreeForum.git"
-
 scalaVersion := "2.12.2"
 
 libraryDependencies += guice
