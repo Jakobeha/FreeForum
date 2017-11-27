@@ -244,7 +244,7 @@ input[type=text]:focus {
   .item .body {
     flex-grow: 1;
     flex-shrink: 1;
-    overflow: scroll; }
+    overflow: auto; }
     .item .body #content_field dt {
       display: none; }
     .item .body > h3, .item .body p {
