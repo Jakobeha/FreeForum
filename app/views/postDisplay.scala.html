@@ -1,0 +1,14 @@
+@(post: Post, clazz: String)
+
+@defining(post.htmlContent) { content =>
+@defining(post.author) { author =>
+@defining(post.id) { id =>
+
+<div id="post-@id" class="@clazz item">
+    <div class="body">
+        <p>@content</p>
+        <p>Posted by @author</p>
+    </div>
+</div>
+
+} } }

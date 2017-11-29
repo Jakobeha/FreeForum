@@ -24,6 +24,18 @@ trait LinkedPostComponent extends ThreadComponent with PostComponent {
       post.threadId === thread.id
     }
   } yield (post, thread)
+
+  protected lazy val threadPosts = {
+    implicit def dateType: BaseColumnType[Date] =
+      MappedColumnType.base[Date, Long](_.getTime, new Date(_))
+
+    for {
+      (linkedPost, _) <- linkedPosts join postDates on {
+        case (linkedPost, (threadId, postDate)) =>
+          linkedPost._1.threadId === threadId && linkedPost._1.createdDate === postDate
+      }
+    } yield linkedPost
+  }
 }
 
 @Singleton()
@@ -34,23 +46,7 @@ class LinkedPostDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   def all: Future[Seq[LinkedPost]] = db.run(linkedPosts.result).map(_.map(LinkedPost.tupled))
 
-  def allThreadPosts: Future[Seq[LinkedPost]] = db.run {
-    implicit def dateType: BaseColumnType[Date] =
-      MappedColumnType.base[Date, Long](_.getTime, new Date(_))
-
-    val postDates = posts.groupBy(_.threadId).map {
-      case (threadId, linkedPostsInThread) => (threadId, linkedPostsInThread.map(_.createdDate).min)
-    }
-
-    val threadPosts = for {
-      (linkedPost, _) <- linkedPosts join postDates on {
-        case (linkedPost, (threadId, postDate)) =>
-          linkedPost._1.threadId === threadId && linkedPost._1.createdDate === postDate
-      }
-    } yield linkedPost
-
-    threadPosts.result
-  }.map(_.map(LinkedPost.tupled))
+  def allThreadPosts: Future[Seq[LinkedPost]] = db.run(threadPosts.result).map(_.map(LinkedPost.tupled))
 
   def count: Future[Int] = db.run(linkedPosts.length.result)
 

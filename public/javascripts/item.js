@@ -1,20 +1,36 @@
 /**
- * Sets the source of an image to an inverted version of its original.
+ * Sets the source of an image to an raised version of its original.
  */
-HTMLImageElement.prototype.invertImage = function() {
-    if (!this.imageName.endsWith("-invert")) {
-        this.imageName += "-invert"
+HTMLImageElement.prototype.raiseImage = function() {
+    if (this.imageName.endsWith("-lowered")) {
+        this.imageName = this.imageName.substr(0, this.imageName.length - "-lowered".length) + "-raised"
+    } else if (!this.imageName.endsWith("-raised")) {
+        this.imageName += "-raised"
     }
-};
+}
 
 /**
- * Sets the source of an image to an original if it's inverted.
+ * Sets the source of an image to a lowered version of its original.
  */
-HTMLImageElement.prototype.uninvertImage = function() {
-    if (this.imageName.endsWith("-invert")) {
-        this.imageName = this.imageName.substr(0, this.imageName.length - "-invert".length)
+HTMLImageElement.prototype.lowerImage = function() {
+    if (this.imageName.endsWith("-raised")) {
+        this.imageName = this.imageName.substr(0, this.imageName.length - "-raised".length) + "-lowered"
+    } else if (!this.imageName.endsWith("-lowered")) {
+        this.imageName += "-lowered"
     }
-};
+}
+
+/**
+ * Sets the source of an image to an unraised if it's raised,
+ * and unlowered if it's lowered.
+ */
+HTMLImageElement.prototype.resetImage = function() {
+    if (this.imageName.endsWith("-lowered")) {
+        this.imageName = this.imageName.substr(0, this.imageName.length - "-lowered".length)
+    } else if (this.imageName.endsWith("-raised")) {
+        this.imageName = this.imageName.substr(0, this.imageName.length - "-raised".length)
+    }
+}
 
 Object.defineProperty(HTMLImageElement.prototype, "imageName", {
     get: function() {
@@ -38,15 +54,21 @@ document.addEventListener("DOMContentLoaded", function() {
     Array.prototype.forEach.call(itemButtons, function(itemButton) {
         switch (itemButton.tagName) {
             case "IMG":
-                itemButton.addEventListener("mouseover", function () {
-                    itemButton.invertImage()
+                itemButton.addEventListener("mousedown", function() {
+                    this.lowerImage()
                 })
-                itemButton.addEventListener("mouseout", function () {
-                    itemButton.uninvertImage()
+                itemButton.addEventListener("mouseup", function() {
+                    this.resetImage()
+                })
+                itemButton.addEventListener("mouseover", function() {
+                    this.raiseImage()
+                })
+                itemButton.addEventListener("mouseout", function() {
+                    this.resetImage()
                 })
                 break
             default:
                 break
         }
     })
-});
+})

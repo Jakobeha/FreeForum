@@ -31,13 +31,16 @@ object HtmlUtils {
   }
 
   private val safeTags: Seq[SafeTag] = Seq(
+    SafeTag(name = "h3", attrs = Set.empty),
+    SafeTag(name = "h4", attrs = Set.empty),
+    SafeTag(name = "h5", attrs = Set.empty),
+    SafeTag(name = "h6", attrs = Set.empty),
     SafeTag(name = "b", attrs = Set.empty),
     SafeTag(name = "i", attrs = Set.empty),
     SafeTag(name = "u", attrs = Set.empty),
     SafeTag(name = "code", attrs = Set.empty),
     SafeTag(name = "pre", attrs = Set.empty),
     SafeTag(name = "a", attrs = Set("href")),
-    SafeTag(name = "code", attrs = Set.empty)
   )
   /**
     * Contains safe tag names as keys, and their safe properties as values.

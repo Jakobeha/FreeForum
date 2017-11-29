@@ -1,0 +1,39 @@
+@(thread: Option[Thread], posts: Seq[Post])(implicit mainContext: MainContext, messagesProvider: MessagesProvider)
+
+@thread.map { thread =>
+@posts.headOption.map { firstPost =>
+@defining(posts.tail) { restPosts =>
+@defining(LinkedPost(firstPost, thread)) { threadPost =>
+
+@main(Seq(thread.title, "Thread")) {
+    @threadPostDisplay(threadPost, clazz = "sub-main")
+    @for(post <- restPosts) {
+        @postDisplay(post, clazz = "sub-main")
+    }
+    @thread.id.map { threadId =>
+        @newReplyDisplay(mainContext.profile, threadId)
+    }
+}
+
+} } }.getOrElse {
+
+<div class="main item">
+    <div class="header">
+        <h2>@thread.title</h2>
+    </div>
+    <div class="body">
+        <p class="error">Hmm, there are no posts in this thread...</p>
+    </div>
+</div>
+
+}
+
+}.getOrElse {
+
+<div class="main item">
+    <div class="error header">
+        <h2>Hmm, this thread doesn't exist...</h2>
+    </div>
+</div>
+
+}

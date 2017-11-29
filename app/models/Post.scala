@@ -38,6 +38,17 @@ trait PostComponent {
   }
 
   protected val posts = TableQuery[PostTable]
+
+  protected lazy val postsWithThreadWithId = posts.findBy(_.threadId)
+
+  protected lazy val postDates = {
+    implicit def dateType: BaseColumnType[Date] =
+      MappedColumnType.base[Date, Long](_.getTime, new Date(_))
+
+    posts.groupBy(_.threadId).map {
+      case (threadId, linkedPostsInThread) => (threadId, linkedPostsInThread.map(_.createdDate).min)
+    }
+  }
 }
 
 @Singleton()
@@ -60,6 +71,8 @@ class PostDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   } yield result
 
   def all: Future[Seq[Post]] = db.run(posts.result)
+
+  def inThreadWithId(id: Long): Future[Seq[Post]] = db.run(postsWithThreadWithId(Some(id)).result)
 
   def insert(post: Post): Future[Post] =
     db.run((posts returning posts.map(_.id)) += post).map { postId =>

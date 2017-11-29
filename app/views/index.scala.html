@@ -12,12 +12,26 @@
                     <h2>FreeForum</h2>
                 </div>
                 <div class="body">
-                    <h3>Supporting Devs, Researchers, and Other Innovators</h3>
+                    <h3>Supporting Developers, researchers, and everyone else who needs support</h3>
                     <p>
-                        ...
+                        Have you ever worked on a project -- for school, work, or on your own -- and felt unmotivated?
+                        Have you ever felt afraid like your project was worthless, or you would get a bad grade?
+                        Have you ever needed help advice on the project? Have you needed <b>support</b> for it?
                     </p>
                     <p>
-                        Testing multiline support
+                        Many people go through these questions. And some people really do need support.
+                        That's what this site is for. You can post your project,
+                        and others can give you support by replying.
+                    </p>
+                    <p>
+                        Consider people who develop software, especially those who make free software (freeware).
+                        These people compete against many others -- often millions -- to get people to notice their software.
+                        App developers compete against over <i>2 million</i> apps on the App Store (“Number of available apps”),
+                        and web designers compete against over <i>1 billion</i> websites  (“Number of available websites”).
+                        It's very likely that nobody will see their software, and it will be be worthless.
+                        Yet a lot of developers make software -- even freeware -- for a living.
+                        They get their money -- to buy food, pay bills, and support their families -- from their software (Gambier 85).
+                        So it's very important for them to be successful (Kamp 49-51).
                     </p>
                 </div>
             </div>
@@ -29,7 +43,9 @@
     <div class="thumbs">
         @newThreadDisplay(mainContext.profile)
         @for(threadPost <- threadPosts) {
-            @threadPostDisplay(threadPost, clazz = "thumb")
+            @threadLink(threadPost.thread) {
+                @threadPostDisplay(threadPost, clazz = "viewable thumb")
+            }
         }
     </div>
 }

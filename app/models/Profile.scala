@@ -23,6 +23,22 @@ case class Profile(name: String) {
     createdDate = DateUtils.now(),
     threadId = None
   )
+
+  def newReplyPost(body: NewReplyBody, threadId: Long): Post = Post(
+    id = None,
+    content = body.content,
+    author = name,
+    createdDate = DateUtils.now(),
+    threadId = Some(threadId)
+  )
+
+  def newPost(body: NewPostBody): Post = Post(
+    id = None,
+    content = body.content,
+    author = name,
+    createdDate = DateUtils.now(),
+    threadId = Some(body.threadId)
+  )
 }
 
 object Profile {

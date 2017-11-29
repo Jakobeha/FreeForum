@@ -3,8 +3,9 @@
 @defining(post.thread.title) { title =>
 @defining(post.post.htmlContent) { content =>
 @defining(post.post.author) { author =>
+@defining(post.post.id) { id =>
 
-<div class="@clazz item">
+<div id="post-@id" class="@clazz item">
     <div class="header">
         <h2>@title</h2>
     </div>
@@ -14,4 +15,4 @@
     </div>
 </div>
 
-} } }
+} } } }

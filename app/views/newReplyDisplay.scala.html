@@ -1,0 +1,23 @@
+@import helper._
+@(profile: Option[Profile], threadId: Long)(implicit messagesProvider: MessagesProvider)
+
+@defining(if (profile.isDefined) {
+    "Reply"
+} else {
+    "Sign Up, then Reply"
+}) { actionLabel =>
+
+<div class="sub-main item">
+    @form(action = routes.HomeController.newReply(threadId)) {
+        <div class="body">
+            @textarea(
+                NewReplyBody.form("content"),
+                'placeholder -> "Show your support, offer suggestions -- reply ...",
+                'class -> "autoresize"
+            )
+            <input type="submit" value="@actionLabel" />
+        </div>
+    }
+</div>
+
+}

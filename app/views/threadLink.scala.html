@@ -1,0 +1,9 @@
+@(thread: Thread)(internal: Html)
+
+@thread.id.map { threadId =>
+
+<a href="@routes.HomeController.viewThread(threadId)" class="no-underline">
+    @internal
+</a>
+
+}.getOrElse(internal)

@@ -12,16 +12,13 @@
 <html lang="en">
     <head>
         <title>@(fullTitlePath.mkString(sep = " - "))</title>
-        @* Disables cache -- comment this for production *@
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         <script src="@routes.Assets.versioned("javascripts/core.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/screen.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/item.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/autoresize.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/errors.js")"></script>
+
     </head>
     <body>
         @errorsDisplay(mainContext.errors)

@@ -6,7 +6,7 @@ import models._
 import play.api.Logger
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import services.{FutureThreadManager, MainContextManager}
+import services.{FuturePostManager, FutureThreadManager, MainContextManager}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -16,7 +16,10 @@ import scala.concurrent.{ExecutionContext, Future}
  */
 @Singleton
 class HomeController @Inject()(linkedPostDAO: LinkedPostDAO,
+                               threadDAO: ThreadDAO,
+                               postDAO: PostDAO,
                                futureThreadManager: FutureThreadManager,
+                               futurePostManager: FuturePostManager,
                                mainContextManager: MainContextManager,
                                cc: ControllerComponents)
                               (implicit executionContext: ExecutionContext)
@@ -28,6 +31,14 @@ class HomeController @Inject()(linkedPostDAO: LinkedPostDAO,
     } yield Ok(views.html.index(threadPosts))
   }
 
+  def viewThread(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    implicit val mainContext: MainContext = mainContextManager.sessionContext
+    for {
+      thread <- threadDAO.withId(id)
+      posts <- postDAO.inThreadWithId(id)
+    } yield Ok(views.html.thread(thread, posts))
+  }
+
   def newThread: Action[NewThreadBody] = Action.async(parse.form(NewThreadBody.form)) { implicit request =>
     val newThreadBody = request.body
     val profile = mainContextManager.sessionContext.profile
@@ -37,13 +48,35 @@ class HomeController @Inject()(linkedPostDAO: LinkedPostDAO,
         val insertedThreadPost = linkedPostDAO.insertLinkedPost(newThreadPost)
 
         insertedThreadPost.map { insertedThreadPost =>
-          Logger.logger.debug("Created " + insertedThreadPost.toString)
+          Logger.logger.debug("Created thread post " + insertedThreadPost.toString)
 
           Redirect(routes.HomeController.index())
         }
 
       case None =>
         Future { futureThreadManager.setSessionValue(Some(newThreadBody)) {
+          Redirect(routes.LoginController.login())
+        } }
+    }
+  }
+
+  def newReply(threadId: Long): Action[NewReplyBody] = Action.async(parse.form(NewReplyBody.form)) { implicit request =>
+    val newReplyBody = request.body
+    val profile = mainContextManager.sessionContext.profile
+    profile match {
+      case Some(someProfile) =>
+        val newReply = someProfile.newReplyPost(newReplyBody, threadId)
+        val insertedReply = postDAO.insert(newReply)
+
+        insertedReply.map { insertedReply =>
+          Logger.logger.debug("Created reply " + insertedReply.toString)
+
+          Redirect(routes.HomeController.index())
+        }
+
+      case None =>
+        val newPostBody = newReplyBody.toPostBody(threadId)
+        Future { futurePostManager.setSessionValue(Some(newPostBody)) {
           Redirect(routes.LoginController.login())
         } }
     }

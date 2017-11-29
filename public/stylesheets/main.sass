@@ -11,6 +11,12 @@ body
   font-family: Helvetica, sans-serif
   color: black
 
+div
+  display: flex
+  flex-direction: column
+  box-sizing: border-box
+  flex-shrink: 0
+
 form
   display: flex
   flex-direction: column
@@ -19,12 +25,6 @@ form
   height: 100%
   flex-grow: 1
   flex-shrink: 1
-
-div
-  display: flex
-  flex-direction: column
-  box-sizing: border-box
-  flex-shrink: 0
 
 dl, dt, dd
   padding: 0
@@ -70,6 +70,10 @@ textarea
 
 input[type = text]:focus
     border: 2px solid #00a3c1
+
+a.no-underline
+  color: black
+  text-decoration: none
 
 @keyframes fade-in
   from
@@ -169,9 +173,8 @@ input[type = text]:focus
 #main-screen #title
   position: absolute
 
-  width: 50vw
-  height: 25vh
-  flex-grow: 0
+  width: calc(50vw + 4px)
+  height: calc(25vh + 4px)
 
   justify-content: center
   align-items: center
@@ -180,10 +183,27 @@ input[type = text]:focus
     font-size: 72px
     font-weight: bold
 
+  > .background
+    transform: translateX(-2px) translateY(-2px)
+
 .screen-down-arrow
+  cursor: pointer
+
   margin-bottom: 6.25vmin
+  transform: translateX(-1px) translateY(-1px)
+  width: calc(12.5vmin + 2px)
+  height: calc(12.5vmin + 2px)
+
+.screen-down-arrow:focus
+  width: calc(12.5vmin + 4px)
+  height: calc(12.5vmin + 4px)
+  transform: translateX(-2px) translateY(-2px)
+
+.screen-down-arrow:active
   width: 12.5vmin
   height: 12.5vmin
+  transform: translateX(0) translateY(0)
+  margin-top: 2px
 
 .screen
   width: 100vw
@@ -199,12 +219,23 @@ input[type = text]:focus
 .item
   border: solid 2px black
 
+  &.viewable
+    cursor: pointer
+
   &.thumb
     box-shadow: 4px 4px 0 0 black
 
     margin: 8px
     width: 256px
     height: 384px
+
+    &.viewable:hover
+      margin: 4px 12px 12px 4px
+      box-shadow: 8px 8px 0 0 black
+
+    &.viewable:active
+      margin: 12px 4px 4px 12px
+      box-shadow: 0 0 0 0 black
 
     .header
       height: 48px
@@ -221,15 +252,13 @@ input[type = text]:focus
       textarea, > p
         font-size: 16px
 
-  &.main
+  &.main, &.sub-main
     box-shadow: 8px 8px 0 0 black
 
     align-self: center
     margin: 32px auto
     width: 75%
     height: 100%
-    flex-grow: 1
-    flex-shrink: 1
 
     .header
       height: 72px
@@ -306,6 +335,10 @@ input[type = text]:focus
       margin-top: 4px
       margin-left: 4px
       margin-right: 4px
+
+  &.main
+    flex-grow: 1
+    flex-shrink: 1
 
 .thumbs
   width: 100%

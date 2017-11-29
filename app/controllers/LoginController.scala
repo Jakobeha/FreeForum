@@ -5,7 +5,7 @@ import javax.inject._
 import models._
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import services.{FutureThreadManager, MainContextManager, ProfileManager}
+import services.{FuturePostManager, FutureThreadManager, MainContextManager, ProfileManager}
 
 import scala.concurrent.ExecutionContext
 
@@ -17,6 +17,7 @@ import scala.concurrent.ExecutionContext
 class LoginController @Inject()(linkedPostDAO: LinkedPostDAO,
                                 profileManager: ProfileManager,
                                 futureThreadManager: FutureThreadManager,
+                                futurePostManager: FuturePostManager,
                                 mainContextManager: MainContextManager,
                                 cc: ControllerComponents)
                                (implicit executionContext: ExecutionContext)
@@ -30,8 +31,10 @@ class LoginController @Inject()(linkedPostDAO: LinkedPostDAO,
     val login = request.body
     val newProfile = Profile(login)
     profileManager.setSessionValueAsync(Some(newProfile)) {
-      futureThreadManager.process(newProfile) {
-        Redirect(routes.HomeController.index())
+      futureThreadManager.processAsync(newProfile) {
+        futurePostManager.process(newProfile) {
+          Redirect(routes.HomeController.index())
+        }
       }
     }
   }

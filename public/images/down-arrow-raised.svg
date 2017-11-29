@@ -9,46 +9,46 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="66"
-   height="66"
-   viewBox="0 0 66 66"
+   width="68"
+   height="68"
+   viewBox="0 0 68 68"
    version="1.1"
    id="svg899"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="down-arrow.svg">
+   sodipodi:docname="down-arrow-raised.svg">
   <defs
      id="defs893">
     <filter
        style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
-       id="filter1010">
+       id="filter1524">
       <feFlood
          flood-opacity="1"
          flood-color="rgb(0,0,0)"
          result="flood"
-         id="feFlood1000" />
+         id="feFlood1514" />
       <feComposite
          in="flood"
          in2="SourceGraphic"
          operator="in"
          result="composite1"
-         id="feComposite1002" />
+         id="feComposite1516" />
       <feGaussianBlur
          in="composite1"
          stdDeviation="0"
          result="blur"
-         id="feGaussianBlur1004" />
+         id="feGaussianBlur1518" />
       <feOffset
-         dx="0.5"
-         dy="0.5"
+         dx="1"
+         dy="1"
          result="offset"
-         id="feOffset1006" />
+         id="feOffset1520" />
       <feComposite
          in="SourceGraphic"
          in2="offset"
          operator="over"
          result="composite2"
-         id="feComposite1008" />
+         id="feComposite1522" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -59,15 +59,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4"
-     inkscape:cx="11.625"
-     inkscape:cy="41.265504"
+     inkscape:cx="20.125"
+     inkscape:cy="41.390504"
      inkscape:document-units="px"
      inkscape:current-layer="g7446"
      showgrid="false"
      inkscape:window-width="1113"
      inkscape:window-height="596"
-     inkscape:window-x="144"
-     inkscape:window-y="24"
+     inkscape:window-x="705"
+     inkscape:window-y="108"
      inkscape:window-maximized="0"
      objecttolerance="10000"
      guidetolerance="10000">
@@ -91,7 +91,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,2)">
+     transform="translate(0,4)">
     <flowRoot
        xml:space="preserve"
        id="flowRoot1446"
@@ -108,12 +108,12 @@
        style="filter:url(#filter1010)">
       <circle
          r="8.2059069"
-         cy="158.26825"
+         cy="157.73909"
          cx="88.638885"
          id="path1444"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal" />
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal;filter:url(#filter1524)" />
       <g
-         transform="translate(-0.2611235,-2.2067525)"
+         transform="translate(-0.26112346,-2.7359192)"
          id="g6859"
          style="fill:#000000;fill-opacity:1">
         <g

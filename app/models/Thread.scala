@@ -1,6 +1,6 @@
 package models
 
-import java.util.{Date, GregorianCalendar}
+import java.util.Date
 import javax.inject.Inject
 
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
@@ -34,14 +34,14 @@ trait ThreadComponent {
   }
 
   protected val threads = TableQuery[ThreadTable]
+
+  protected lazy val threadsById = threads.findBy(_.id)
 }
 
 class ThreadDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
                          (implicit executionContext: ExecutionContext)
   extends ThreadComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
-
-  private val threadsById = threads.findBy(_.id)
 
   def lazyLoad(initThreads: => Seq[Thread]): Future[Boolean] = for {
     tables <- db.run(MTable.getTables)
@@ -57,6 +57,9 @@ class ThreadDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
   } yield result
 
   def all: Future[Seq[Thread]] = db.run(threads.result)
+
+  def withId(id: Long): Future[Option[Thread]] = db.run(threadsById(id).result).map(_.headOption)
+
   def insert(thread: Thread): Future[Thread] =
     db.run((threads returning threads.map(_.id)) += thread).map { threadId =>
     thread.copy(id = Some(threadId))

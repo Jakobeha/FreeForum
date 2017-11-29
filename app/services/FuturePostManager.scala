@@ -2,16 +2,16 @@ package services
 
 import javax.inject.{Inject, Singleton}
 
-import models.{LinkedPostDAO, NewThreadBody, Profile}
+import models.{NewPostBody, PostDAO, Profile}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class FutureThreadManager @Inject()(linkedPostDAO: LinkedPostDAO)
-                                   (implicit executionContext: ExecutionContext)
-  extends SessionValueManager[NewThreadBody]("futureThread")(NewThreadBody.reads, NewThreadBody.writes) {
+class FuturePostManager @Inject()(postDAO: PostDAO)
+                                 (implicit executionContext: ExecutionContext)
+  extends SessionValueManager[NewPostBody]("futurePost")(NewPostBody.reads, NewPostBody.writes) {
   def process(profile: Profile)
              (result: Result)
              (implicit request: Request[Any]): Future[Result] = {
@@ -28,12 +28,12 @@ class FutureThreadManager @Inject()(linkedPostDAO: LinkedPostDAO)
                      (result: Res)
                      (implicit request: Request[Any]): Future[Res] = {
     sessionValue match {
-      case Some(futureThread) =>
-        val newThreadPost = profile.newThreadPostLinked(futureThread)
-        val insertedThreadPost = linkedPostDAO.insertLinkedPost(newThreadPost)
+      case Some(futurePost) =>
+        val newPost = profile.newPost(futurePost)
+        val insertedPost = postDAO.insert(newPost)
 
-        insertedThreadPost.map { insertedThreadPost =>
-          Logger.logger.debug(s"Created cached: " + insertedThreadPost.toString)
+        insertedPost.map { insertedPost =>
+          Logger.logger.debug(s"Created cached post: " + insertedPost.toString)
 
           result
         }
