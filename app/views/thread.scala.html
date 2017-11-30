@@ -17,12 +17,14 @@
 
     } } }.getOrElse {
 
-    <div class="main item">
-        <div class="header">
-            <h2>@thread.title</h2>
-        </div>
-        <div class="body">
-            <p class="error">Hmm, this thread appears to be broken -- there are no posts.</p>
+    <div class="center-overlay">
+        <div class="main item">
+            <div class="header">
+                <h2>@thread.title</h2>
+            </div>
+            <div class="body">
+                <p class="error">Hmm, this thread appears to be broken -- there are no posts.</p>
+            </div>
         </div>
     </div>
 
@@ -32,14 +34,18 @@
 }.getOrElse {
 
 @main(Seq("(Unknown)", "Thread")) {
-    <div class="error main item">
-        <div class="header">
-            <h2>Thread doesn't exist</h2>
-        </div>
-        <div class="body">
-            <p class="error">Hmm, this thread doesn't actually exist.</p>
+
+    <div class="center-overlay">
+        <div class="error main item">
+            <div class="header">
+                <h2>Thread doesn't exist</h2>
+            </div>
+            <div class="body">
+                <p class="error">Hmm, this thread doesn't actually exist.</p>
+            </div>
         </div>
     </div>
+
 }
 
 }
