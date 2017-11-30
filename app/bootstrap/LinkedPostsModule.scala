@@ -77,7 +77,7 @@ object LinkedPostsModule {
             |All of its entries are created, edited, and verified by users.
             |If you don't see an entry for something, you can even create one yourself.
             |Moreover, Wikipedia is
-            |<a href="https://donate.wikimedia.org/w/index.php">completely funded</a>
+            |<a href="https://donate.wikimedia.org/w/index.php?title=Special:LandingPage&country=US&utm_medium=sidebar&utm_source=donate&utm_campaign=C13_wikimediafoundation.org">completely funded</a>
             |by donations from users -- it's completely free, and doesn't even have any advertisements.
             |A lot of people know that Wikipedia relies on its users' contributions.
             |But a lot of people overlook this, and don't contribute themselves.
