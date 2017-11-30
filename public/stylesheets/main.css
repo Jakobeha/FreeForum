@@ -48,8 +48,8 @@ input[type=text] {
   box-sizing: border-box;
   width: 100%;
   height: auto;
-  padding: 2px;
-  font-size: 16px; }
+  font-size: 16px;
+  padding: 2px; }
 
 textarea {
   background-color: transparent;
@@ -60,6 +60,7 @@ textarea {
   flex-grow: 1;
   flex-shrink: 1;
   resize: none;
+  font-family: Helvetica, sans-serif;
   padding: 2px; }
 
 input[type=text]:focus {
@@ -68,6 +69,9 @@ input[type=text]:focus {
 a.no-underline {
   color: black;
   text-decoration: none; }
+
+p.error {
+  color: #800000; }
 
 @keyframes fade-in {
   from {
@@ -149,33 +153,35 @@ a.no-underline {
 
 #main-screen #title {
   position: absolute;
-  width: calc(50vw + 4px);
-  height: calc(25vh + 4px);
+  width: 50.390625vw;
+  height: 25.390625vh;
   justify-content: center;
   align-items: center; }
   #main-screen #title > h1 {
     font-size: 72px;
     font-weight: bold; }
   #main-screen #title > .background {
-    transform: translateX(-2px) translateY(-2px); }
+    transform: translateX(-0.1953125vw) translateY(-0.1953125vw); }
 
 .screen-down-arrow {
   cursor: pointer;
   margin-bottom: 6.25vmin;
-  transform: translateX(-1px) translateY(-1px);
-  width: calc(12.5vmin + 2px);
-  height: calc(12.5vmin + 2px); }
+  width: 12.890625vmin;
+  height: 12.890625vmin;
+  transform: translateX(-0.1953125vmin) translateY(-0.1953125vmin);
+  margin-top: -0.390625vmin; }
 
-.screen-down-arrow:focus {
-  width: calc(12.5vmin + 4px);
-  height: calc(12.5vmin + 4px);
-  transform: translateX(-2px) translateY(-2px); }
+.screen-down-arrow:hover {
+  width: 13.28125vmin;
+  height: 13.28125vmin;
+  transform: translateX(-0.390625vmin) translateY(-0.390625vmin);
+  margin-top: -0.78125vmin; }
 
 .screen-down-arrow:active {
   width: 12.5vmin;
   height: 12.5vmin;
   transform: translateX(0) translateY(0);
-  margin-top: 2px; }
+  margin-top: 0; }
 
 .screen {
   width: 100vw;
@@ -211,24 +217,49 @@ a.no-underline {
       padding: 4px; }
       .item.thumb .body > h3 {
         font-size: 20px; }
+      .item.thumb .body > h4 {
+        font-size: 18px; }
+      .item.thumb .body > h5 {
+        font-size: 17px; }
+      .item.thumb .body > h6 {
+        font-size: 26px; }
       .item.thumb .body textarea, .item.thumb .body > p {
         font-size: 16px; }
-  .item.main, .item.sub-main {
+  .item.main, .item.head, .item.reply {
     box-shadow: 8px 8px 0 0 black;
     align-self: center;
-    margin: 32px auto;
     width: 75%;
     height: 100%; }
-    .item.main .header, .item.sub-main .header {
+    .item.main .header, .item.head .header, .item.reply .header {
       height: 72px; }
-      .item.main .header > h2, .item.main .header input[type=text], .item.sub-main .header > h2, .item.sub-main .header input[type=text] {
+      .item.main .header > h2, .item.main .header input[type=text], .item.head .header > h2, .item.head .header input[type=text], .item.reply .header > h2, .item.reply .header input[type=text] {
         font-size: 36px; }
-    .item.main .body, .item.sub-main .body {
+    .item.main .body, .item.head .body, .item.reply .body {
       padding: 12px; }
-      .item.main .body > h3, .item.sub-main .body > h3 {
+      .item.main .body > h3, .item.head .body > h3, .item.reply .body > h3 {
         font-size: 30px; }
-      .item.main .body textarea, .item.main .body > p, .item.sub-main .body textarea, .item.sub-main .body > p {
+      .item.main .body > h4, .item.head .body > h4, .item.reply .body > h4 {
+        font-size: 28px; }
+      .item.main .body > h5, .item.head .body > h5, .item.reply .body > h5 {
+        font-size: 26px; }
+      .item.main .body > h6, .item.head .body > h6, .item.reply .body > h6 {
         font-size: 24px; }
+      .item.main .body textarea, .item.main .body > p, .item.head .body textarea, .item.head .body > p, .item.reply .body textarea, .item.reply .body > p {
+        font-size: 24px; }
+  .item.main {
+    margin: 32px auto;
+    flex-grow: 1;
+    flex-shrink: 1; }
+  .item.reply {
+    margin: 32px auto; }
+  .item.head, .item.reply:first-of-type {
+    margin: 64px auto 32px; }
+  .item.head:last-of-type, .item.reply:last-of-type {
+    margin: 32px auto 64px; }
+  .item.error {
+    border-color: #b40000; }
+    .item.error .header {
+      background-color: #b40000; }
   .item #content_field {
     width: 100%;
     flex-grow: 1;
@@ -275,9 +306,6 @@ a.no-underline {
       margin-top: 4px;
       margin-left: 4px;
       margin-right: 4px; }
-  .item.main {
-    flex-grow: 1;
-    flex-shrink: 1; }
 
 .thumbs {
   width: 100%;

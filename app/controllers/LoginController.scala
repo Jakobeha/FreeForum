@@ -5,6 +5,7 @@ import javax.inject._
 import models._
 import play.api.i18n.I18nSupport
 import play.api.mvc._
+import play.filters.csrf.CSRF
 import services.{FuturePostManager, FutureThreadManager, MainContextManager, ProfileManager}
 
 import scala.concurrent.ExecutionContext

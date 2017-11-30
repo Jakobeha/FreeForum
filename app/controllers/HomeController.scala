@@ -31,11 +31,19 @@ class HomeController @Inject()(linkedPostDAO: LinkedPostDAO,
     } yield Ok(views.html.index(threadPosts))
   }
 
-  def viewThread(id: Long): Action[AnyContent] = Action.async { implicit request =>
+  def viewThreadById(id: Long): Action[AnyContent] = Action.async { implicit request =>
     implicit val mainContext: MainContext = mainContextManager.sessionContext
     for {
       thread <- threadDAO.withId(id)
       posts <- postDAO.inThreadWithId(id)
+    } yield Ok(views.html.thread(thread, posts))
+  }
+
+  def viewThreadByTitle(title: String): Action[AnyContent] = Action.async { implicit request =>
+    implicit val mainContext: MainContext = mainContextManager.sessionContext
+    for {
+      thread <- threadDAO.withTitle(title)
+      posts <- postDAO.inThreadWithId(thread.flatMap(_.id).getOrElse(-1L))
     } yield Ok(views.html.thread(thread, posts))
   }
 

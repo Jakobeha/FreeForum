@@ -1,5 +1,6 @@
 package myutils
 
+import play.api.Logger
 import play.twirl.api.Html
 
 import scala.util.{Failure, Success, Try}
@@ -8,12 +9,18 @@ import scala.xml._
 object HtmlUtils {
   private implicit class NodeMapExt(private val self: Node) {
     /** Whether this node contains no children. */
-    def isLeaf: Boolean = children.isEmpty
+    def isLeaf: Boolean = self.children.isEmpty
     /** Whether this node contains children. */
-    def isTree: Boolean = children.nonEmpty
+    def isTree: Boolean = self.children.nonEmpty
 
     /** This node's children -- @child@ excluding itself. */
-    def children: Seq[Node] = self.child.tail
+    def children: Seq[Node] = {
+      if (self.child.headOption.contains(self)) {
+        self.child.tail
+      } else {
+        self.child
+      }
+    }
     def overChildren(transformer: (Node) => Node): Node = {
       if (isLeaf) { // Is a leaf
         self
@@ -35,12 +42,15 @@ object HtmlUtils {
     SafeTag(name = "h4", attrs = Set.empty),
     SafeTag(name = "h5", attrs = Set.empty),
     SafeTag(name = "h6", attrs = Set.empty),
+    SafeTag(name = "p", attrs = Set.empty),
     SafeTag(name = "b", attrs = Set.empty),
     SafeTag(name = "i", attrs = Set.empty),
     SafeTag(name = "u", attrs = Set.empty),
     SafeTag(name = "code", attrs = Set.empty),
     SafeTag(name = "pre", attrs = Set.empty),
+    SafeTag(name = "sup", attrs = Set.empty),
     SafeTag(name = "a", attrs = Set("href")),
+    SafeTag(name = "br", attrs = Set.empty)
   )
   /**
     * Contains safe tag names as keys, and their safe properties as values.
@@ -52,10 +62,12 @@ object HtmlUtils {
     * but escapes everything else (converts it into literal text).
     */
   def escapeUnsafe(rawHtml: String): Html = {
-    val tryNodes = Try(XML.loadString(s"<xml>$rawHtml</xml>").child)
+    val tryNodes = Try(XML.loadString(s"<xml>${rawHtml.replace("&", "&amp;")}</xml>").child)
     tryNodes match {
       case Success(nodes) => Html(nodes.map(escapeUnsafe).mkString)
-      case Failure(_) => Html(escape(rawHtml).toString) // Escapes everything
+      case Failure(exception) =>
+        Logger.logger.debug("Error escaping", exception)
+        Html(escape(rawHtml).toString) // Escapes everything
     }
   }
 

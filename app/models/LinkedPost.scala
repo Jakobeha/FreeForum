@@ -5,6 +5,7 @@ import java.util.Date
 import scala.concurrent.{ExecutionContext, Future}
 import javax.inject.{Inject, Singleton}
 
+import myutils.DateUtils
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
@@ -51,19 +52,23 @@ class LinkedPostDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   def count: Future[Int] = db.run(linkedPosts.length.result)
 
   def insertLinkedPost(linkedPost: LinkedPost): Future[LinkedPost] = {
-    db.run {
-      val thread = linkedPost.thread
-      ((threads returning threads.map(_.id)) += thread).flatMap { threadId =>
-        val post = linkedPost.post.copy(threadId = Some(threadId))
-        ((posts returning posts.map(_.id)) += post).map { postId =>
-          (threadId, postId)
-        }
-      }.transactionally
-    }.map {
-      case (threadId, postId) => linkedPost.copy(
-        thread = linkedPost.thread.copy(id = Some(threadId)),
-        post = linkedPost.post.copy(id = Some(postId), threadId = Some(threadId))
-      )
+    if (linkedPost.post.createdDate.after(DateUtils.forumUnlockDate) && linkedPost.post.createdDate.before(DateUtils.forumLockDate)) {
+      db.run {
+        val thread = linkedPost.thread
+        ((threads returning threads.map(_.id)) += thread).flatMap { threadId =>
+          val post = linkedPost.post.copy(threadId = Some(threadId))
+          ((posts returning posts.map(_.id)) += post).map { postId =>
+            (threadId, postId)
+          }
+        }.transactionally
+      }.map {
+        case (threadId, postId) => linkedPost.copy(
+          thread = linkedPost.thread.copy(id = Some(threadId)),
+          post = linkedPost.post.copy(id = Some(postId), threadId = Some(threadId))
+        )
+      }
+    } else {
+      Future { linkedPost }
     }
   }
 

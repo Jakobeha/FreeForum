@@ -3,6 +3,7 @@ package models
 import java.util.Date
 import javax.inject.Inject
 
+import myutils.DateUtils
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 import slick.jdbc.meta.MTable
@@ -36,6 +37,8 @@ trait ThreadComponent {
   protected val threads = TableQuery[ThreadTable]
 
   protected lazy val threadsById = threads.findBy(_.id)
+
+  protected lazy val threadsByTitle = threads.findBy(_.title)
 }
 
 class ThreadDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
@@ -60,8 +63,15 @@ class ThreadDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
   def withId(id: Long): Future[Option[Thread]] = db.run(threadsById(id).result).map(_.headOption)
 
-  def insert(thread: Thread): Future[Thread] =
-    db.run((threads returning threads.map(_.id)) += thread).map { threadId =>
-    thread.copy(id = Some(threadId))
+  def withTitle(title: String): Future[Option[Thread]] = db.run(threadsByTitle(title).result).map(_.headOption)
+
+  def insert(thread: Thread): Future[Thread] = {
+    if (thread.createdDate.after(DateUtils.forumUnlockDate) && thread.createdDate.before(DateUtils.forumLockDate)) {
+      db.run((threads returning threads.map(_.id)) += thread).map { threadId =>
+        thread.copy(id = Some(threadId))
+      }
+    } else {
+      Future { thread }
+    }
   }
 }

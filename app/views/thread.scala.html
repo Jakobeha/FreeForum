@@ -1,39 +1,45 @@
 @(thread: Option[Thread], posts: Seq[Post])(implicit mainContext: MainContext, messagesProvider: MessagesProvider)
 
 @thread.map { thread =>
-@posts.headOption.map { firstPost =>
-@defining(posts.tail) { restPosts =>
-@defining(LinkedPost(firstPost, thread)) { threadPost =>
 
 @main(Seq(thread.title, "Thread")) {
-    @threadPostDisplay(threadPost, clazz = "sub-main")
+    @posts.headOption.map { firstPost =>
+    @defining(posts.tail) { restPosts =>
+    @defining(LinkedPost(firstPost, thread)) { threadPost =>
+
+    @threadPostDisplay(threadPost, clazz = "head")
     @for(post <- restPosts) {
-        @postDisplay(post, clazz = "sub-main")
+        @postDisplay(post, clazz = "reply")
     }
     @thread.id.map { threadId =>
         @newReplyDisplay(mainContext.profile, threadId)
     }
-}
 
-} } }.getOrElse {
+    } } }.getOrElse {
 
-<div class="main item">
-    <div class="header">
-        <h2>@thread.title</h2>
+    <div class="main item">
+        <div class="header">
+            <h2>@thread.title</h2>
+        </div>
+        <div class="body">
+            <p class="error">Hmm, this thread appears to be broken -- there are no posts.</p>
+        </div>
     </div>
-    <div class="body">
-        <p class="error">Hmm, there are no posts in this thread...</p>
-    </div>
-</div>
 
+    }
 }
 
 }.getOrElse {
 
-<div class="main item">
-    <div class="error header">
-        <h2>Hmm, this thread doesn't exist...</h2>
+@main(Seq("(Unknown)", "Thread")) {
+    <div class="error main item">
+        <div class="header">
+            <h2>Thread doesn't exist</h2>
+        </div>
+        <div class="body">
+            <p class="error">Hmm, this thread doesn't actually exist.</p>
+        </div>
     </div>
-</div>
+}
 
 }

@@ -4,7 +4,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import javax.inject.{Inject, Singleton}
 import java.util.Date
 
-import myutils.HtmlUtils
+import myutils.{DateUtils, HtmlUtils}
 import slick.jdbc.JdbcProfile
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.twirl.api.Html
@@ -74,8 +74,13 @@ class PostDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   def inThreadWithId(id: Long): Future[Seq[Post]] = db.run(postsWithThreadWithId(Some(id)).result)
 
-  def insert(post: Post): Future[Post] =
-    db.run((posts returning posts.map(_.id)) += post).map { postId =>
-    post.copy(id = Some(postId))
+  def insert(post: Post): Future[Post] = {
+    if (post.createdDate.after(DateUtils.forumUnlockDate) && post.createdDate.before(DateUtils.forumLockDate)) {
+      db.run((posts returning posts.map(_.id)) += post).map { postId =>
+        post.copy(id = Some(postId))
+      }
+    } else {
+      Future { post }
+    }
   }
 }

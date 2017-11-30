@@ -52,8 +52,9 @@ input[type = text]
   width: 100%
   height: auto
 
-  padding: 2px
   font-size: 16px
+
+  padding: 2px
 
 textarea
   background-color: transparent
@@ -66,6 +67,8 @@ textarea
   flex-shrink: 1
   resize: none
 
+  font-family: Helvetica, sans-serif
+
   padding: 2px
 
 input[type = text]:focus
@@ -74,6 +77,9 @@ input[type = text]:focus
 a.no-underline
   color: black
   text-decoration: none
+
+p.error
+  color: #800000
 
 @keyframes fade-in
   from
@@ -173,8 +179,8 @@ a.no-underline
 #main-screen #title
   position: absolute
 
-  width: calc(50vw + 4px)
-  height: calc(25vh + 4px)
+  width: (512 + 4) * (50vw / 512)
+  height: (256 + 4) * (25vh / 256)
 
   justify-content: center
   align-items: center
@@ -184,26 +190,28 @@ a.no-underline
     font-weight: bold
 
   > .background
-    transform: translateX(-2px) translateY(-2px)
+    transform: translateX(-2 * (50vw / 512)) translateY(-2 * (50vw / 512))
 
 .screen-down-arrow
   cursor: pointer
 
   margin-bottom: 6.25vmin
-  transform: translateX(-1px) translateY(-1px)
-  width: calc(12.5vmin + 2px)
-  height: calc(12.5vmin + 2px)
+  width: (64 + 2) * (12.5vmin / 64)
+  height: (64 + 2) * (12.5vmin / 64)
+  transform: translateX(-1 * (12.5vmin / 64)) translateY(-1 * (12.5vmin / 64))
+  margin-top: -2 * (12.5vmin / 64)
 
-.screen-down-arrow:focus
-  width: calc(12.5vmin + 4px)
-  height: calc(12.5vmin + 4px)
-  transform: translateX(-2px) translateY(-2px)
+.screen-down-arrow:hover
+  width: (64 + 4) * (12.5vmin / 64)
+  height: (64 + 4) * (12.5vmin / 64)
+  transform: translateX(-2 * (12.5vmin / 64)) translateY(-2 * (12.5vmin / 64))
+  margin-top: -4 * (12.5vmin / 64)
 
 .screen-down-arrow:active
   width: 12.5vmin
   height: 12.5vmin
   transform: translateX(0) translateY(0)
-  margin-top: 2px
+  margin-top: 0
 
 .screen
   width: 100vw
@@ -249,14 +257,22 @@ a.no-underline
       > h3
         font-size: 20px
 
+      > h4
+        font-size: 18px
+
+      > h5
+        font-size: 17px
+
+      > h6
+        font-size: 26px
+
       textarea, > p
         font-size: 16px
 
-  &.main, &.sub-main
+  &.main, &.head, &.reply
     box-shadow: 8px 8px 0 0 black
 
     align-self: center
-    margin: 32px auto
     width: 75%
     height: 100%
 
@@ -272,8 +288,37 @@ a.no-underline
       > h3
         font-size: 30px
 
+      > h4
+        font-size: 28px
+
+      > h5
+        font-size: 26px
+
+      > h6
+        font-size: 24px
+
       textarea, > p
         font-size: 24px
+
+  &.main
+    margin: 32px auto
+    flex-grow: 1
+    flex-shrink: 1
+
+  &.reply
+    margin: 32px auto
+
+  &.head, &.reply:first-of-type
+    margin: 64px auto 32px
+
+  &.head:last-of-type, &.reply:last-of-type
+    margin: 32px auto 64px
+
+  &.error
+    border-color: #b40000
+
+    .header
+      background-color: #b40000
 
   #content_field
     width: 100%
@@ -335,10 +380,6 @@ a.no-underline
       margin-top: 4px
       margin-left: 4px
       margin-right: 4px
-
-  &.main
-    flex-grow: 1
-    flex-shrink: 1
 
 .thumbs
   width: 100%
