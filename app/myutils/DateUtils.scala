@@ -1,11 +1,13 @@
 package myutils
 
-import java.util.{Date, GregorianCalendar}
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.time.Instant
 
 object DateUtils {
-  val forumUnlockDate: Date = new GregorianCalendar(2017, 11, 4, 11, 30, 0).getTime
-  val forumLockDate: Date = new GregorianCalendar(2017, 11, 4, 13, 35, 0).getTime
+  val format = new SimpleDateFormat("hh:mm aa, dd/MM/yyyy")
+  val forumUnlockDate: Date = format.parse("1:33 PM, 04/12/2017")
+  val forumLockDate: Date = format.parse("1:37 PM, 04/12/2017")
 
   def now(): Date = Date.from(Instant.now())
 }
