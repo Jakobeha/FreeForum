@@ -131,14 +131,14 @@ object LinkedPostsModule {
             |Old Volkswagen cars emit a lot of of pollution (NO<sup>2</sup>) into the atmosphere -- sometimes 35 times as much as they're legally allowed to.
             |Because of this, these cars should've been banned from being sold and driven on the road.
             |But they were programmed to emit much less pollution than usual when they were tested in a laboratory.
-            |So they passed emissions tests and weren't banned, even though they should've been.
+            |So they passed emissions tests and weren't banned.
             |Around 2 years ago, people tested the Volkswagen cars' emissions on the road, found that they were much higher than in the lab, and discovered this scandal.
             |Since then, the cars have been taken off the road, and Volkswagen has been penalized, to prevent them from doing this again (Lam).
             |<p>
             |The people who discovered the scandal are researchers, who discovered it during their research project.
             |They actually started this project after they got money from a grant -- in other words, they started it because they got support.
-            |Supporting existing research projects isn't the same as supporting new ones -- replying to a post probably won't motivate as much as giving a grant.
-            |But both methods are useful, because they motivate researchers to continue their research, and make important discoveries like this scandal.
+            |Supporting existing research projects isn't the same as supporting new ones -- replying to a post probably won't motivate someone as much as giving them a grant.
+            |But both methods are useful, because they provide some motivation to researchers to continue their research, and make important discoveries like this scandal.
             |It's very good that this scandal was discovered, or else these cars would still be sold and driven, so they would still cause a lot of pollution.
             |Because the researchers got support and stayed motivated, they were able to make an important discovery --
             |a discovery which has stopped this scandal, and in doing so, has ended up reducing pollution and enforcing justice (Lam).
